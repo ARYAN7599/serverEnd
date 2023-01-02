@@ -52,7 +52,7 @@ app.post('/imageupload', async (req, res) => {
                         msg:'File Uploaded',
                         file: `${req.file.filename}`
                     })
-                    console.log(req.file.filename);
+                    // console.log(req.file.filename);
                     
                 }
             }
