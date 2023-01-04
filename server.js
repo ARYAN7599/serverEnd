@@ -9,7 +9,7 @@ const { errorMonitor } = require('events');
 
 app.use('/public/uploads', express.static('./public/uploads'));
 app.use(cors());
-// tedd
+
 var counts = 1;
 
 const storage = multer.diskStorage({
@@ -59,8 +59,6 @@ app.get('/', (req, res) => {
 app.post('/imageupload', async (req, res) => {
     try {
         upload(req, res, function (err) {
-
-
             if (err) {
                 res.send({ msg: err });
             } else {
@@ -74,12 +72,9 @@ app.post('/imageupload', async (req, res) => {
                         file: `${req.file.filename}`
                     })
                     // console.log(req.file.filename);
-
                 }
             }
-
         });
-
     } catch (err) { console.log(err) }
 })
 
