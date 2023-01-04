@@ -8,7 +8,7 @@ let Client = require('ssh2-sftp-client');
 
 app.use('/public/uploads', express.static('./public/uploads'));
 app.use(cors());
-
+// tedd
 var counts = 1;
 
 const storage = multer.diskStorage({
