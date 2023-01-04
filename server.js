@@ -5,13 +5,10 @@ const cors = require('cors');
 const multer = require('multer');
 const port = process.env.PORT || 5000;
 let Client = require('ssh2-sftp-client');
-
-
 app.use('/public/uploads', express.static('./public/uploads'));
+
 app.use(cors());
-
 var counts = 1;
-
 const storage = multer.diskStorage({
     destination: './public/uploads/',
     filename: function (req, file, cb) {
@@ -27,39 +24,37 @@ const upload = multer({
     }
 }).single("myFile");
 
+
+
 app.get('/', (req, res) => {
-    // let sftp = new Client();
-    // var temp = [];
-    // sftp.connect({
-    //     host: '139.59.65.197',
-    //     port: '22',
-    //     username: 'root',
-    //     password: '880088@#Blockchain'
-    // }).then(() => {
-    //     return sftp.list('/var/lib/jenkins/workspace/projectserver/public/uploads/');
-    // }).then(data => {
+    let sftp = new Client();
+    var temp = [];
+    sftp.connect({
+        host: '139.59.65.197',
+        port: '22',
+        username: 'root',
+        password: '880088@#Blockchain'
+    }).then(() => {
+        return sftp.list('/var/lib/jenkins/workspace/projectserver/public/uploads/');
+    }).then(data => {
 
-    //     data.forEach(element => {
-    //         let imagePath = "http://139.59.65.197:5000/public/uploads/" + element.name;
-    //         temp.push(imagePath)
-    //         if (temp.length == data.length) {
-    //             res.send(temp)
-    //         }
+        data.forEach(element => {
+            let imagePath = "http://139.59.65.197:5000/public/uploads/" + element.name;
+            temp.push(imagePath)
+            if (temp.length == data.length) {
+                res.send(temp)
+            }
 
-    //     });
-    // }).catch(err => {
-    //     console.log(err, 'catch error');
-
-    //     res.send({
-    //         "status":err.msg
-    //     })
-    // });
-    res.send("working")
+        });
+    }).catch(err => {
+        console.log(err, 'catch error');
+    });
 });
 
 app.post('/imageupload', async (req, res) => {
     try {
         upload(req, res, function (err) {
+
             if (err) {
                 res.send({ msg: err });
             } else {
@@ -72,10 +67,13 @@ app.post('/imageupload', async (req, res) => {
                         msg: 'File Uploaded',
                         file: `${req.file.filename}`
                     })
-                    // console.log(req.file.filename);
+                    console.log(req.file.filename);
+
                 }
             }
+
         });
+
     } catch (err) { console.log(err) }
 })
 
