@@ -4,7 +4,7 @@ const path = require('path');
 const cors = require('cors');
 const multer = require('multer');
 const port = process.env.PORT || 5000;
-// let Client = require('ssh2-sftp-client');
+let Client = require('ssh2-sftp-client');
 
 app.use('/public/uploads', express.static('./public/uploads'));
 app.use(cors());
