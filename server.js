@@ -56,7 +56,7 @@ app.get('/', (req, res) => {
     });
 });
 
-app.post('/', async (req, res) => {
+app.post('/imageupload', async (req, res) => {
     try {
         upload(req, res, function (err) {
 
