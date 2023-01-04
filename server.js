@@ -5,6 +5,7 @@ const cors = require('cors');
 const multer = require('multer');
 const port = process.env.PORT || 5000;
 let Client = require('ssh2-sftp-client');
+const { errorMonitor } = require('events');
 
 app.use('/public/uploads', express.static('./public/uploads'));
 app.use(cors());
@@ -48,8 +49,11 @@ app.get('/', (req, res) => {
         });
     }).catch(err => {
         console.log(err, 'catch error');
+
+        res.send({
+            "status":err.msg
+        })
     });
-    res.send("working")
 });
 
 app.post('/imageupload', async (req, res) => {
