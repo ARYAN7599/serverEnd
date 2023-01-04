@@ -28,32 +28,33 @@ const upload = multer({
 }).single("myFile");
 
 app.get('/', (req, res) => {
-    let sftp = new Client();
-    var temp = [];
-    sftp.connect({
-        host: '139.59.65.197',
-        port: '22',
-        username: 'root',
-        password: '880088@#Blockchain'
-    }).then(() => {
-        return sftp.list('/var/lib/jenkins/workspace/projectserver/public/uploads/');
-    }).then(data => {
+    // let sftp = new Client();
+    // var temp = [];
+    // sftp.connect({
+    //     host: '139.59.65.197',
+    //     port: '22',
+    //     username: 'root',
+    //     password: '880088@#Blockchain'
+    // }).then(() => {
+    //     return sftp.list('/var/lib/jenkins/workspace/projectserver/public/uploads/');
+    // }).then(data => {
 
-        data.forEach(element => {
-            let imagePath = "http://139.59.65.197:5000/public/uploads/" + element.name;
-            temp.push(imagePath)
-            if (temp.length == data.length) {
-                res.send(temp)
-            }
+    //     data.forEach(element => {
+    //         let imagePath = "http://139.59.65.197:5000/public/uploads/" + element.name;
+    //         temp.push(imagePath)
+    //         if (temp.length == data.length) {
+    //             res.send(temp)
+    //         }
 
-        });
-    }).catch(err => {
-        console.log(err, 'catch error');
+    //     });
+    // }).catch(err => {
+    //     console.log(err, 'catch error');
 
-        res.send({
-            "status":err.msg
-        })
-    });
+    //     res.send({
+    //         "status":err.msg
+    //     })
+    // });
+    res.send("working")
 });
 
 app.post('/imageupload', async (req, res) => {
