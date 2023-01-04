@@ -3,4 +3,4 @@ WORKDIR app
 COPY . .
 RUN npm install
 EXPOSE 5000
-CMD ["pm2start","server.js"]
+CMD ["node","server.js"]
