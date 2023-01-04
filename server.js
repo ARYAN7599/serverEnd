@@ -5,10 +5,13 @@ const cors = require('cors');
 const multer = require('multer');
 const port = process.env.PORT || 5000;
 let Client = require('ssh2-sftp-client');
-app.use('/public/uploads', express.static('./public/uploads'));
+const { errorMonitor } = require('events');
 
+app.use('/public/uploads', express.static('./public/uploads'));
 app.use(cors());
+// tedd
 var counts = 1;
+
 const storage = multer.diskStorage({
     destination: './public/uploads/',
     filename: function (req, file, cb) {
@@ -23,8 +26,6 @@ const upload = multer({
         checkFileType(file, cb);
     }
 }).single("myFile");
-
-
 
 app.get('/', (req, res) => {
     let sftp = new Client();
@@ -48,12 +49,17 @@ app.get('/', (req, res) => {
         });
     }).catch(err => {
         console.log(err, 'catch error');
+
+        res.send({
+            "status":err.msg
+        })
     });
 });
 
 app.post('/imageupload', async (req, res) => {
     try {
         upload(req, res, function (err) {
+
 
             if (err) {
                 res.send({ msg: err });
@@ -67,7 +73,7 @@ app.post('/imageupload', async (req, res) => {
                         msg: 'File Uploaded',
                         file: `${req.file.filename}`
                     })
-                    console.log(req.file.filename);
+                    // console.log(req.file.filename);
 
                 }
             }
