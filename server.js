@@ -35,7 +35,7 @@ app.get('/', (req, res) => {
         username: 'root',
         password: '880088@#Blockchain'
     }).then(() => {
-        return sftp.list('/var/lib/jenkins/workspace/projectserver/public/uploads');
+        return sftp.list('/var/lib/jenkins/workspace/projectserver/public/uploads/');
     }).then(data => {
 
         data.forEach(element => {
