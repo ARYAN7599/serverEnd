@@ -4,7 +4,7 @@ const path = require('path');
 const cors = require('cors');
 const multer = require('multer');
 const port = process.env.PORT || 5000;
-let Client = require('ssh2-sftp-client');
+// let Client = require('ssh2-sftp-client');
 
 app.use('/public/uploads', express.static('./public/uploads'));
 app.use(cors());
@@ -27,28 +27,29 @@ const upload = multer({
 }).single("myFile");
 
 app.get('/', (req, res) => {
-    let sftp = new Client();
-    var temp = [];
-    sftp.connect({
-        host: '139.59.65.197',
-        port: '22',
-        username: 'root',
-        password: '880088@#Blockchain'
-    }).then(() => {
-        return sftp.list('/var/lib/docker/overlay2/b654a7ff6fbba58b14c714a3fafc13a0e037002b461d2fcebd568cbfca134b21/diff/app/public/uploads');
-    }).then(data => {
+    // let sftp = new Client();
+    // var temp = [];
+    // sftp.connect({
+    //     host: '139.59.65.197',
+    //     port: '22',
+    //     username: 'root',
+    //     password: '880088@#Blockchain'
+    // }).then(() => {
+    //     return sftp.list('/var/lib/docker/overlay2/b654a7ff6fbba58b14c714a3fafc13a0e037002b461d2fcebd568cbfca134b21/diff/app/public/uploads');
+    // }).then(data => {
 
-        data.forEach(element => {
-            let imagePath = "http://139.59.65.197:5000/public/uploads/" + element.name;
-            temp.push(imagePath)
-            if (temp.length == data.length) {
-                res.send(temp)
-            }
+    //     data.forEach(element => {
+    //         let imagePath = "http://139.59.65.197:5000/public/uploads/" + element.name;
+    //         temp.push(imagePath)
+    //         if (temp.length == data.length) {
+    //             res.send(temp)
+    //         }
 
-        });
-    }).catch(err => {
-        console.log(err, 'catch error');
-    });
+    //     });
+    // }).catch(err => {
+    //     console.log(err, 'catch error');
+    // });
+    res.send("working")
 });
 
 app.post('/imageupload', async (req, res) => {
