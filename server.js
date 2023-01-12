@@ -1,88 +1,42 @@
-const express = require('express')
-const app = express();
-const path = require('path');
-const cors = require('cors');
-const multer = require('multer');
 const port = process.env.PORT || 5000;
-let Client = require('ssh2-sftp-client');
+const express = require('express');
+const app = express();
+const cors = require('cors');
+const fileUpload = require('express-fileupload');
+const fs = require('fs');
+const path = require('path');
+const dirPath = path.join(__dirname, "images");
 
-app.use('/public/uploads', express.static('./public/uploads'));
 app.use(cors());
-// tedd
-var counts = 1;
+app.use(fileUpload());
+app.use('/images', express.static('./images'));
 
-const storage = multer.diskStorage({
-    destination: './public/uploads/',
-    filename: function (req, file, cb) {
-
-        cb(null, `${counts++}${path.extname(file.originalname)}`)
+app.post('/upload', function (req, res) {
+    let sampleFile;
+    let uploadPath;
+    if (!req.files || Object.keys(req.files).length === 0) {
+        return res.status(400).send('No files were uploaded.');
     }
-})
 
-const upload = multer({
-    storage: storage,
-    fileFilter: function (req, file, cb) {
-        checkFileType(file, cb);
-    }
-}).single("myFile");
+    sampleFile = req.files.newFile;
+    uploadPath = __dirname + '/images/' + sampleFile.name;
 
-app.get('/', (req, res) => {
-    let sftp = new Client();
-    var temp = [];
-    sftp.connect({
-        host: '139.59.65.197',
-        port: '22',
-        username: 'root',
-        password: '880088@#Blockchain'
-    }).then(() => {
-        return sftp.list('/var/lib/jenkins/workspace/projectserver/public/uploads/');
-    }).then(data => {
-        data.forEach(element => {
-            let imagePath = "http://139.59.65.197:5000/public/uploads/" + element.name;
-            temp.push(imagePath)
-            if (temp.length == data.length) {
-                res.send(temp)
-            }
-        });
-    }).catch(err => {
-        console.log(err, 'catch error');
-        res.send({
-            "status":err.msg
-        })
+    sampleFile.mv(uploadPath, function (err) {
+        if (err)
+            return res.status(500).send(err);
+
+        res.send('File uploaded!');
     });
 });
 
-app.post('/imageupload', async (req, res) => {
-    try {
-        upload(req, res, function (err) {
-            if (err) {
-                res.send({ msg: err });
-            } else {
-                if (req.file == undefined) {
-                    res.send({
-                        msg: "select image"
-                    });
-                } else {
-                    res.json({
-                        msg: 'File Uploaded',
-                        file: `${req.file.filename}`
-                    })
-                    // console.log(req.file.filename);
-                }
-            }
-        });
-    } catch (err) { console.log(err) }
-})
+app.get("/", (req, res) => {
+    fs.readdir(dirPath, (err, images) => {
+        // images.forEach((item)=>{
+        //   console.warn(item)
+        // });
+        return res.send(images);
+    })
 
-function checkFileType(file, cb) {
-    const filetypes = /jpeg|jpg|png|gif|webp/;
-    const extname = filetypes.test(path.extname(file.originalname).toLowerCase());
-    const mimetype = filetypes.test(file.mimetype);
-    if (mimetype && extname) {
-        return cb(null, true);
-    } else {
-        cb('ERROR: Images Only!');
-    }
-}
+});
 
 app.listen(port, () => console.log(`${port}`))
