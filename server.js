@@ -11,7 +11,7 @@ app.use(cors());
 app.use(fileUpload());
 app.use('/images', express.static('./images'));
 
-//uploaded Images
+
 app.post('/upload', function (req, res) {
     let sampleFile;
     let uploadPath;
