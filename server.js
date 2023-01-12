@@ -33,9 +33,6 @@ app.post('/upload', function (req, res) {
 //getImages
 app.get("/", (req, res) => {
     fs.readdir(dirPath, (err, images) => {
-        // images.forEach((item)=>{
-        //   console.warn(item)
-        // });
         return res.send(images);
     })
 
