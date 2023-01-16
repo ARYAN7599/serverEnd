@@ -2,10 +2,16 @@ const port = process.env.PORT || 5000;
 const express = require('express');
 const app = express();
 const cors = require('cors');
+var bodyParser = require('body-parser')
 const fileUpload = require('express-fileupload');
 const fs = require('fs');
 const path = require('path');
 const dirPath = path.join(__dirname, "images");
+
+
+app.use(bodyParser.urlencoded({ extended: false }))
+
+app.use(bodyParser.json())
 
 app.use(cors());
 app.use(fileUpload());
