@@ -26,6 +26,7 @@ app.post('/upload', function (req, res) {
     }
 
     sampleFile = req.files.newFile;
+    console.log(sampleFile)
     uploadPath = __dirname + '/images/' + sampleFile.name;
 
     sampleFile.mv(uploadPath, function (err) {
