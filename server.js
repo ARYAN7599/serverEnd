@@ -24,9 +24,9 @@ app.post('/upload', function (req, res) {
     if (!req.files || Object.keys(req.files).length === 0) {
         return res.status(400).send('No files were uploaded.');
     }
-
+console.log("req.files", req.files);
     sampleFile = req.files.newFile;
-    console.log(sampleFile)
+    console.log("samplefiles",sampleFile);
     uploadPath = __dirname + '/images/' + sampleFile.name;
 
     sampleFile.mv(uploadPath, function (err) {
