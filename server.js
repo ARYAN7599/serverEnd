@@ -37,7 +37,7 @@ console.log("req.files", req.files);
     });
 });
 
-//getImages
+
 app.get("/", (req, res) => {
     fs.readdir(dirPath, (err, images) => {
         return res.send(images);
