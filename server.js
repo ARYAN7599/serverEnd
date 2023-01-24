@@ -42,10 +42,4 @@ app.get("/", (req, res) => {
 
 });
 
-app.delete("/", (req, res) => {
-    console.log(`file Deleted`)
-    return res.status(200).json({result: true, msg: 'file deleted'})
-
-});
-
 app.listen(port, () => console.log(`${port}`))
