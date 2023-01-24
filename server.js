@@ -35,11 +35,16 @@ console.log("req.files", req.files);
     });
 });
 
-
 app.get("/", (req, res) => {
     fs.readdir(dirPath, (err, images) => {
         return res.send(images);
     })
+
+});
+
+app.delete("/upload", (req, res) => {
+    console.log(`file Deleted`)
+    return res.status(200).json({result: true, msg: 'file deleted'})
 
 });
 
