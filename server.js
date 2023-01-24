@@ -7,7 +7,7 @@ const fileUpload = require('express-fileupload');
 const fs = require('fs');
 const path = require('path');
 const dirPath = path.join(__dirname, "images");
-
+//
 
 app.use(bodyParser.urlencoded({ extended: false }))
 
