@@ -42,7 +42,7 @@ app.get("/", (req, res) => {
 
 });
 
-app.delete("/upload", (req, res) => {
+app.delete("/", (req, res) => {
     console.log(`file Deleted`)
     return res.status(200).json({result: true, msg: 'file deleted'})
 
