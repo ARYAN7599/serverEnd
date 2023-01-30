@@ -22,18 +22,55 @@ app.post('/upload', function (req, res) {
     if (!req.files || Object.keys(req.files).length === 0) {
         return res.status(400).send('No files were uploaded.');
     }
-console.log("req.files", req.files);
+    console.log("req.files", req.files);
     sampleFile = req.files.file;
-    console.log("samplefiles",sampleFile);
+    console.log("samplefiles", sampleFile);
     uploadPath = __dirname + '/images/' + sampleFile.name;
 
     sampleFile.mv(uploadPath, function (err) {
         if (err)
             return res.status(500).send(err);
-
+        console.log("https://blockchaintimes.live/images/" + sampleFile.name)
         res.send('File uploaded!');
     });
 });
+
+
+app.delete("/delete", (req, res) => {
+    let fileName = req.query.fileName;
+    console.log(fileName);
+    const directoryPath = `https://blockchaintimes.live/images/${fileName}`;
+    console.log(directoryPath);
+    // fs.unlink(directoryPath, function (err) {
+    //     if (err) throw err;
+    //     // if no error, file has been deleted succe
+    //     console.log('File deleted!');
+    // });
+    try {
+        fs.unlinkSync(directoryPath);
+    
+        res.status(200).send({
+          message: "File is deleted.",
+        });
+      } catch (err) {
+        res.status(500).send({
+          message: "Could not delete the file. " + err,
+        });
+    }
+});
+
+
+
+
+// // app.delete("", (req, res) => {
+//     fs.unlink('images/Screenshot (6).png', function (err) {
+//         if (err) throw err;
+//         // if no error, file has been deleted successfully
+//         console.log('File deleted!');
+//     });
+// // });
+
+
 
 app.get("/", (req, res) => {
     fs.readdir(dirPath, (err, images) => {
