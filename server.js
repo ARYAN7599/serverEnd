@@ -36,10 +36,10 @@ app.post('/upload', function (req, res) {
 });
 
 
-app.delete("/delete", (req, res) => {
+app.delete("/", (req, res) => {
     let fileName = req.query.fileName;
     console.log(fileName);
-    const directoryPath = `https://blockchaintimes.live/images/${fileName}`;
+    const directoryPath = `images/${fileName}`;
     console.log(directoryPath);
     // fs.unlink(directoryPath, function (err) {
     //     if (err) throw err;
