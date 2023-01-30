@@ -22,34 +22,26 @@ app.post('/upload', function (req, res) {
     if (!req.files || Object.keys(req.files).length === 0) {
         return res.status(400).send('No files were uploaded.');
     }
-    console.log("req.files", req.files);
     sampleFile = req.files.file;
-    console.log("samplefiles", sampleFile);
     uploadPath = __dirname + '/images/' + sampleFile.name;
-
     sampleFile.mv(uploadPath, function (err) {
         if (err)
             return res.status(500).send(err);
-        console.log("https://blockchaintimes.live/images/" + sampleFile.name)
         res.send('File uploaded!');
     });
 });
 
-
 app.delete("/", (req, res) => {
     let fileName = req.query.fileName;
-    console.log(fileName);
     const directoryPath = `images/${fileName}`;
-    console.log(directoryPath);
     try {
         fs.unlinkSync(directoryPath);
-    
         res.status(200).send({
-          message: "File is deleted.",
+            message: "File is deleted.",
         });
-      } catch (err) {
+    } catch (err) {
         res.status(500).send({
-          message: "Could not delete the file. " + err,
+            message: "Could not delete the file. " + err,
         });
     }
 });
