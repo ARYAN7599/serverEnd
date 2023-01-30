@@ -41,11 +41,6 @@ app.delete("/", (req, res) => {
     console.log(fileName);
     const directoryPath = `images/${fileName}`;
     console.log(directoryPath);
-    // fs.unlink(directoryPath, function (err) {
-    //     if (err) throw err;
-    //     // if no error, file has been deleted succe
-    //     console.log('File deleted!');
-    // });
     try {
         fs.unlinkSync(directoryPath);
     
@@ -58,19 +53,6 @@ app.delete("/", (req, res) => {
         });
     }
 });
-
-
-
-
-// // app.delete("", (req, res) => {
-//     fs.unlink('images/Screenshot (6).png', function (err) {
-//         if (err) throw err;
-//         // if no error, file has been deleted successfully
-//         console.log('File deleted!');
-//     });
-// // });
-
-
 
 app.get("/", (req, res) => {
     fs.readdir(dirPath, (err, images) => {
