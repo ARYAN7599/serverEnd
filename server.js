@@ -23,7 +23,7 @@ app.post('/upload', function (req, res) {
         return res.status(400).send('No files were uploaded.');
     }
     console.log("req.files", req.files);
-    sampleFile = req.files.file;
+    sampleFile = req.files.newFile;
     console.log("samplefiles", sampleFile);
     uploadPath = __dirname + '/images/' + sampleFile.name;
 
