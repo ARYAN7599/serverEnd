@@ -1,5 +1,6 @@
 const port = process.env.PORT || 5000;
 const express = require('express');
+const multer = require('multer');
 const app = express();
 const cors = require('cors');
 var bodyParser = require('body-parser')
@@ -16,24 +17,51 @@ app.use(cors());
 app.use(fileUpload());
 app.use('/images', express.static('./images'));
 
-app.post('/upload', function (req, res) {
-    let sampleFile;
-    let uploadPath;
-    if (!req.files || Object.keys(req.files).length === 0) {
-        return res.status(400).send('No files were uploaded.');
-    }
-    console.log("req.files", req.files);
-    sampleFile = req.files.file;
-    console.log("samplefiles", sampleFile);
-    uploadPath = __dirname + '/images/' + sampleFile.name;
 
-    sampleFile.mv(uploadPath, function (err) {
-        if (err)
-            return res.status(500).send(err);
-        console.log("https://blockchaintimes.live/images/" + sampleFile.name)
-        res.send('File uploaded!');
-    });
+
+const storage = multer.diskStorage({
+    // uploadPath = __dirname + '/images/' + sampleFile.name;
+    destination: function (req, file, callback) {
+        callback(null, __dirname + '/images');
+    },
+    // Sets file(s) to be saved in uploads folder in same directory
+    filename: function (req, file, callback) {
+        callback(null, file.originalname);
+    }
+ 
+  })
+
+
+  const upload = multer({ storage: storage })
+
+app.post("/upload", upload.array("file"), (req, res) => {
+
+
+    console.log(req.body);
+    console.log(req.files);
+    res.json({ message: "File(s) uploaded successfully" });
+
 });
+
+
+// app.post('/upload', function (req, res) {
+//     let sampleFile;
+//     let uploadPath;
+//     if (!req.files || Object.keys(req.files).length === 0) {
+//         return res.status(400).send('No files were uploaded.');
+//     }
+//     console.log("req.files", req.files);
+//     sampleFile = req.files.file;
+//     console.log("samplefiles", sampleFile);
+//     uploadPath = __dirname + '/images/' + sampleFile.name;
+
+//     sampleFile.mv(uploadPath, function (err) {
+//         if (err)
+//             return res.status(500).send(err);
+//         console.log("https://blockchaintimes.live/images/" + sampleFile.name)
+//         res.send('File uploaded!');
+//     });
+// });
 
 app.get("/", (req, res) => {
     fs.readdir(dirPath, (err, images) => {
