@@ -18,24 +18,19 @@ app.use(cors());
 app.use('/images', express.static('./images'));
 
 
+const upload = multer({ storage: storage });
 
 const storage = multer.diskStorage({
-    // uploadPath = __dirname + '/images/' + sampleFile.name;
     destination: function (req, file, callback) {
         callback(null, __dirname + '/images');
     },
-    // Sets file(s) to be saved in uploads folder in same directory
     filename: function (req, file, callback) {
         callback(null, file.originalname);
     }
- 
-  })
 
-
-  const upload = multer({ storage: storage })
+})
 
 app.post("/upload", upload.array("file"), (req, res) => {
-
 
     console.log(req.body);
     console.log(req.files);
@@ -77,13 +72,13 @@ app.delete("/", (req, res) => {
     console.log(directoryPath);
     try {
         fs.unlinkSync(directoryPath);
-    
+
         res.status(200).send({
-          message: "File is deleted.",
+            message: "File is deleted.",
         });
-      } catch (err) {
+    } catch (err) {
         res.status(500).send({
-          message: "Could not delete the file. " + err,
+            message: "Could not delete the file. " + err,
         });
     }
 });
