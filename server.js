@@ -17,33 +17,33 @@ app.use(cors());
 app.use(fileUpload());
 app.use('/images', express.static('./images'));
 
-// app.post('/upload', function (req, res) {
-//     let sampleFile;
-//     let uploadPath;
-//     if (!req.files || Object.keys(req.files).length === 0) {
-//         return res.status(400).send('No files were uploaded.');
-//     }
-//     console.log("req.files", req.files);
-//     sampleFile = req.files.file;
-//     console.log("samplefiles", sampleFile);
-//     uploadPath = __dirname + '/images/' + sampleFile.name;
+app.post('/upload', function (req, res) {
+    let sampleFile;
+    let uploadPath;
+    if (!req.files || Object.keys(req.files).length === 0) {
+        return res.status(400).send('No files were uploaded.');
+    }
+    console.log("req.files", req.files);
+    sampleFile = req.files.file;
+    console.log("samplefiles", sampleFile);
+    uploadPath = __dirname + '/images/' + sampleFile.name;
 
-//     sampleFile.mv(uploadPath, function (err) {
-//         if (err)
-//             return res.status(500).send(err);
-//         console.log("https://blockchaintimes.live/images/" + sampleFile.name)
-//         res.send('File uploaded!');
-//     });
-// });
-
-app.post("/upload", upload.array("file"), (req, res) => {
-
-
-    console.log(req.body);
-    console.log(req.files);
-    res.json({ message: "File(s) uploaded successfully" });
-
+    sampleFile.mv(uploadPath, function (err) {
+        if (err)
+            return res.status(500).send(err);
+        console.log("https://blockchaintimes.live/images/" + sampleFile.name)
+        res.send('File uploaded!');
+    });
 });
+
+// app.post("/upload", upload.array("file"), (req, res) => {
+
+
+//     console.log(req.body);
+//     console.log(req.files);
+//     res.json({ message: "File(s) uploaded successfully" });
+
+// });
 
 app.listen(5000, function(){
     console.log("Server running on port 5000");
