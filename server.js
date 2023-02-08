@@ -18,8 +18,6 @@ app.use(cors());
 app.use('/images', express.static('./images'));
 
 
-const upload = multer({ storage: storage });
-
 const storage = multer.diskStorage({
     destination: function (req, file, callback) {
         callback(null, __dirname + '/images');
@@ -28,7 +26,8 @@ const storage = multer.diskStorage({
         callback(null, file.originalname);
     }
 
-})
+});
+const upload = multer({ storage: storage });
 
 app.post("/upload", upload.array("file"), (req, res) => {
 
@@ -37,7 +36,6 @@ app.post("/upload", upload.array("file"), (req, res) => {
     res.json({ message: "File(s) uploaded successfully" });
 
 });
-
 
 // app.post('/upload', function (req, res) {
 //     let sampleFile;
