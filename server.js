@@ -35,12 +35,13 @@ app.post("/upload", upload.array("file"), (req, res) => {
     // console.log(req.body);
     const array= req.files;
     // console.log(req.files);
-    var s = "";
+    var s = [];
     for( let x = 0 ; x < array.length ; x++ )
     {
-        s += array[x].filename + " ";
+        s.push("https://blockchaintimes.live/images/"+ array[x].filename + " ");
             // console.log( array[x].filename ); 
-            console.log("http://localhost:5000/images/"+s);
+            //console.log("http://localhost:5000/images/"+s);
+            console.log("ddddd",s);
     }
     res.json({ message: "File(s) uploaded successfully" });
 
