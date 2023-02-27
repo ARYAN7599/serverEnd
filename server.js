@@ -17,13 +17,14 @@ app.use(cors());
 // app.use(fileUpload());
 app.use('/images', express.static('./images'));
 
+var count = 1;
 
 const storage = multer.diskStorage({
     destination: function (req, file, callback) {
         callback(null, __dirname + '/images');
     },
     filename: function (req, file, callback) {
-        callback(null, file.originalname);
+        callback(null, `${count++}-${file.originalname}`);
     }
 
 });
@@ -31,8 +32,16 @@ const upload = multer({ storage: storage });
 
 app.post("/upload", upload.array("file"), (req, res) => {
 
-    console.log(req.body);
-    console.log(req.files);
+    // console.log(req.body);
+    const array= req.files;
+    // console.log(req.files);
+    var s = "";
+    for( let x = 0 ; x < array.length ; x++ )
+    {
+        s += array[x].filename + " ";
+            // console.log( array[x].filename ); 
+            console.log("http://localhost:5000/images/"+s);
+    }
     res.json({ message: "File(s) uploaded successfully" });
 
 });
