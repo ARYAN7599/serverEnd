@@ -190,11 +190,11 @@ const createProduct = async (req, res, next) => {
 
 app.post("/upload", uploadProductImages, resizerImages, createProduct);
 
-app.get("/", (req, res) => {
-  fs.readdir(dirPath, (err, images) => {
-      return res.send(images);
-  })
-});
+// app.get("/", (req, res) => {
+//   fs.readdir(dirPath, (err, images) => {
+//       return res.send(images);
+//   })
+// });
 
 
 app.listen(port, () => console.log(`${port}`))
