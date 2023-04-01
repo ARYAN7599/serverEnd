@@ -107,6 +107,7 @@ const express = require("express");
 const port = process.env.PORT || 5000;
 const app = express();
 const multer = require("multer");
+const cors = require("cors");
 app.use(cors())
 const fs = require('fs');
 const path = require('path');
