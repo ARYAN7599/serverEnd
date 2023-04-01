@@ -19,6 +19,7 @@
     "multer-sharp-resizer": "^1.0.5",
     "path": "^0.12.7",
     "sharp": "^0.31.3",
+    "sharp-multer": "^0.2.5",
     "ssh2-sftp-client": "^9.0.4"
   }
 }

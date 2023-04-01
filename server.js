@@ -9,6 +9,7 @@ var bodyParser = require('body-parser');
 const fs = require('fs');
 const path = require('path');
 const dirPath = path.join(__dirname, "images");
+const SharpMulter  =  require("sharp-multer");
 
 app.use(bodyParser.urlencoded({ extended: false }))
 
@@ -20,23 +21,34 @@ app.use('/images', express.static('./images'));
 
 var count = 1;
 
-const storage = multer.diskStorage({
+const storage =  
+// SharpMulter ({
+//     destination:(req, file, callback) =>callback(null, "images"),
+//     imageOptions:{
+//      fileFormat: "png",
+//      quality: 80,
+//      resize: { width: 500, height: 500 },
+//        }
+//  })
+ multer.diskStorage({
     destination: function (req, file, callback) {
         callback(null, __dirname + '/images');
     },
     filename: function (req, file, callback) {
         callback(null, `${Date.now()+"."+ "png".split(".")[0]}`);
+        // console.log("ddd",file)
         console.log("ssa",file.originalname.split(".")[1]);
     }
 });
 const upload = multer({ storage: storage });
 
 
-app.post("/upload", upload.array("file"), (req, res) => {
+app.post("/upload", upload.array("file"), async(req, res) => {
     // console.log(req.body);
     if (!req.files || Object.keys(req.files).length === 0) {
                 return res.status(400).send('No files were uploaded.');
             }
+        
     const array= req.files;
     // console.log(req.files);
     var s = [];
