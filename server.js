@@ -6,7 +6,7 @@
 // const cors = require('cors');
 // var bodyParser = require('body-parser');
 // // const fileUpload = require('express-fileupload');
-// const fs = require('fs');
+const fs = require('fs');
 // const path = require('path');
 // const dirPath = path.join(__dirname, "images");
 
