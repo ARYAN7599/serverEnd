@@ -1,6 +1,8 @@
 {
   "name": "app",
   "version": "1.0.0",
+ "Access-Control-Allow-Origin": "https://onecrafts.in",
+
   "description": "",
   "main": "index.js",
   "scripts": {
