@@ -1,6 +1,7 @@
 const port = process.env.PORT || 5000;
 const express = require('express');
 const multer = require('multer');
+const sharp = require("sharp");
 const app = express();
 const cors = require('cors');
 var bodyParser = require('body-parser');
@@ -24,21 +25,29 @@ const storage = multer.diskStorage({
         callback(null, __dirname + '/images');
     },
     filename: function (req, file, callback) {
-        callback(null, `${count++}-${file.originalname}`);
+        callback(null, `${Date.now()+"."+ file.originalname.split(".")[1]}`);
+        console.log("ssa",file.originalname.split(".")[1]);
     }
-
 });
 const upload = multer({ storage: storage });
 
-app.post("/upload", upload.array("file"), (req, res) => {
 
+
+
+
+app.post("/upload", upload.array("file"), (req, res) => {
     // console.log(req.body);
+    if (!req.files || Object.keys(req.files).length === 0) {
+                return res.status(400).send('No files were uploaded.');
+            }
     const array= req.files;
     // console.log(req.files);
     var s = [];
     for( let x = 0 ; x < array.length ; x++ )
     {
-        s.push("https://blockchaintimes.live/images/"+ array[x].filename + " ");
+        let newImage= (array[x].filename.split(".")[0]+x+"."+ array[x].filename.split(".")[1]);
+        console.log("sss",newImage)
+        s.push("http://localhost:5000/images/"+ newImage + "");
             // console.log( array[x].filename ); 
             //console.log("http://localhost:5000/images/"+s);
             console.log("ddddd",s);
@@ -92,3 +101,7 @@ app.delete("/", (req, res) => {
 });
 
 app.listen(port, () => console.log(`${port}`))
+
+
+
+
